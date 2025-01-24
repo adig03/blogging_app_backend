@@ -7,10 +7,11 @@ import com.example.Blogging.Application.repositories.CategoryRepo;
 import com.example.Blogging.Application.services.CategoryService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
+@Component
 public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
@@ -34,8 +35,8 @@ public class CategoryServiceImpl implements CategoryService {
         Category cat = this.cat_repo.findById(cat_id ).orElseThrow(() -> new ResourceNotFoundException("Category" , "Category_id" , cat_id));
 
 
-        cat.setCategory_title(categoryDto.getCategory_title());
-        cat.setCategory_desc(categoryDto.getCategory_desc());
+        cat.setCategoryTitle(categoryDto.getCategoryTitle());
+        cat.setCategoryDesc(categoryDto.getCategoryDesc());
 
         Category savedCategory = this.cat_repo.save(cat);
         return this.modelMapper.map(savedCategory , CategoryDto.class);

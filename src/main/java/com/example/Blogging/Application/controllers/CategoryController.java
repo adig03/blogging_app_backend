@@ -5,7 +5,6 @@ import com.example.Blogging.Application.payloads.CategoryDto;
 import com.example.Blogging.Application.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

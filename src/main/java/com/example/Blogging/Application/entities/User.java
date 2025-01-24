@@ -3,6 +3,10 @@ package com.example.Blogging.Application.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -11,20 +15,34 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+
     @NotNull
+    @Size(min = 3, max = 50)
+    @Column(name = "name", nullable = false)
     private String name;
+
     @Email
+    @NotNull
+    @Column(name = "email", unique = true, nullable = false)
     private String email;
+
     @NotNull
+    @Size(min = 6)
+    @Column(name = "password", nullable = false)
     private String password;
+
     @NotNull
+    @Column(name = "about", length = 500, nullable = false)
     private String about;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Post> posts = new ArrayList<>();
 
     // Default Constructor
     public User() {
     }
 
-    // Getter and Setter for id
+    // Getters and Setters
     public int getId() {
         return id;
     }
@@ -33,7 +51,6 @@ public class User {
         this.id = id;
     }
 
-    // Getter and Setter for name
     public String getName() {
         return name;
     }
@@ -42,7 +59,6 @@ public class User {
         this.name = name;
     }
 
-    // Getter and Setter for email
     public String getEmail() {
         return email;
     }
@@ -51,7 +67,6 @@ public class User {
         this.email = email;
     }
 
-    // Getter and Setter for password
     public String getPassword() {
         return password;
     }
@@ -60,12 +75,39 @@ public class User {
         this.password = password;
     }
 
-    // Getter and Setter for about
     public String getAbout() {
         return about;
     }
 
     public void setAbout(String about) {
         this.about = about;
+    }
+
+    public List<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
+    }
+
+    public void addPost(Post post) {
+        this.posts.add(post);
+        post.setUser(this);
+    }
+
+    public void removePost(Post post) {
+        this.posts.remove(post);
+        post.setUser(null);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", about='" + about + '\'' +
+                '}';
     }
 }
